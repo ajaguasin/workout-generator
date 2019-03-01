@@ -10,7 +10,7 @@ const users = require("./routes/api/users");
 const port = process.env.PORT || 8000;
 const router = express.Router();
 
-const Data = require("./data");
+const Data = require("./models/Exercise");
 
 // MongoDB
 const dbRoute = require("./config/keys").mongoURI;

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: "",
       email: "",
@@ -23,6 +23,7 @@ class Register extends Component {
       password2: this.state.password2
     };
     console.log(newUser);
+    this.props.registerUser(newUser, this.props.history);
   };
   render() {
     const { errors } = this.state;
@@ -96,4 +97,4 @@ class Register extends Component {
     );
   }
 }
-export default Register;
+export default withRouter(Register);

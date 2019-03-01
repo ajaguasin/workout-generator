@@ -6,15 +6,18 @@ import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import AuthProvider, {
+  AuthContext
+} from "./components/auth/Context/AuthProvider";
 
 class App extends Component {
   state = {
     data: []
   };
 
-  componentDidMount() {
-    this.getDataFromDb();
-  }
+  // componentDidMount() {
+  //   this.getDataFromDb();
+  // }
 
   getDataFromDb = () => {
     fetch("/api/getData")
@@ -26,13 +29,31 @@ class App extends Component {
     const { data } = this.state;
     return (
       <Router>
-        <div>
-          <Navbar />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <ExerciseForm data={data} />
-        </div>
+        <AuthProvider>
+          <AuthContext.Consumer>
+            {({ registerUser, loginUser, logoutUser, loading }) => {
+              return (
+                <div>
+                  <Navbar />
+                  <Route exact path="/" component={Landing} />
+                  <Route
+                    exact
+                    path="/register"
+                    render={routeProps => (
+                      <Register {...routeProps} registerUser={registerUser} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/login"
+                    render={routeProps => <Login {...routeProps} />}
+                  />
+                  <ExerciseForm data={data} />
+                </div>
+              );
+            }}
+          </AuthContext.Consumer>
+        </AuthProvider>
       </Router>
     );
   }
