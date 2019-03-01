@@ -1,5 +1,11 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import ExerciseForm from "./components/ExerciseForm/ExerciseForm";
+import Navbar from "./components/layout/Navbar";
+import Landing from "./components/layout/Landing";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
 
 class App extends Component {
   state = {
@@ -11,7 +17,7 @@ class App extends Component {
   }
 
   getDataFromDb = () => {
-    fetch("api/getData")
+    fetch("/api/getData")
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
@@ -19,24 +25,15 @@ class App extends Component {
   render() {
     const { data } = this.state;
     return (
-      <div>
-        <ul>
-          {data.length <= 0
-            ? "NO DB ENTRIES YET"
-            : data.map((dat, index) => (
-                <li style={{ padding: "10px" }} key={index}>
-                  <span style={{ color: "gray" }}> Exercise: </span>
-                  {dat.name}
-                  <span style={{ color: "gray" }}> Sets: </span>
-                  {dat.sets}
-                  <span style={{ color: "gray" }}> Reps: </span>
-                  {dat.reps}
-                </li>
-              ))}
-        </ul>
-
-        <ExerciseForm data={data} />
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <ExerciseForm data={data} />
+        </div>
+      </Router>
     );
   }
 }
