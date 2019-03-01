@@ -5,6 +5,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
+const passport = require("passport");
+const users = require("./routes/api/users");
 const port = process.env.PORT || 8000;
 const router = express.Router();
 
@@ -25,11 +27,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "client/build")));
-app.use("/api", router);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/api/users", users);
 
 router.get("/getData", (req, res) => {
   Data.find((err, data) => {

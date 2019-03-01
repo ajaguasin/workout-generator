@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 class ExerciseForm extends Component {
   putDataToDB = values => {
-    axios.post("http://localhost:8000/api/putData", {
+    axios.post("/api/putData", {
       name: values.exercise,
       bodyPart: values.bodyPart
     });
