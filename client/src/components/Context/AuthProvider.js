@@ -62,6 +62,7 @@ class AuthProvider extends Component {
           registerUser: this.registerUser,
           loginUser: this.loginUser,
           logoutUser: this.logoutUser,
+          setCurrentUser: this.setCurrentUser,
           loading: this.state.loading
         }}
       >

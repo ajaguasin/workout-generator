@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
@@ -19,6 +19,8 @@ class Login extends Component {
       password: this.state.password
     };
     console.log(userData);
+
+    this.props.loginUser(userData);
   };
   render() {
     const { errors } = this.state;
